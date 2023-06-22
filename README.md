@@ -1,17 +1,17 @@
 # XFaaS-WFMS
 
-An Interactive UI created using react which is a workflow management system to manage workflows deployed in a multi-cloud environment such as Azure and AWS
+An Interactive UI created using react which is a workflow management system to manage workflows deployed in a multi-cloud environment such as Azure and AWS\
 The data is retrieved from dynamoDb 
 
 The base application was created using "create-react-app"
 
 # MaterialUI
 
-In order to incorporate interactive features please install the material UI libraries 
-npm install @mui/material 
-npm install @emotion/react 
-npm install @emotion/styled
-npm install @mui/icons-material
+In order to incorporate interactive features please install the material UI libraries\ 
+npm install @mui/material\
+npm install @emotion/react\ 
+npm install @emotion/styled\
+npm install @mui/icons-material\
 
 # Connected Graphs
 
