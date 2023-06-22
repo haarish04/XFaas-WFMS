@@ -8,10 +8,10 @@ The base application was created using "create-react-app"
 # MaterialUI
 
 In order to incorporate interactive features please install the material UI libraries\ 
-npm install @mui/material\
-npm install @emotion/react\ 
-npm install @emotion/styled\
-npm install @mui/icons-material\
+npm install @mui/material \
+npm install @emotion/react \ 
+npm install @emotion/styled \
+npm install @mui/icons-material \
 
 # Connected Graphs
 
