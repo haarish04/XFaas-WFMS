@@ -1,103 +1,71 @@
 import React, { useState, useEffect } from 'react';
-import { Box, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import Line from '../line/Line';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import InvocationData from './Data';
+import { Link } from 'react-router-dom';
 
 const Invocation = () => {
   const [invocationList, setInvocationList] = useState([]);
-  const [selectedInvocation, setSelectedInvocation] = useState(null);
+  const [filterValue, setFilterValue] = useState('');
 
   useEffect(() => {
-    // Simulating fetching data from an API
-    const fetchData = () => {
-      try {
-        // Replace this with your actual API call
-        // const response = await fetch('url');
-        // const json = await response.json();
-        const json = {
-          workflow_deployment_id: 'uuid',
-          workflow_invocation_id: 'uuid',
-          client_request_time_ms: 1669527328928,
-          invocation_start_time_ms: 1669527329557,
-          functions: {
-            10: {
-              start_delta_ms: 0,
-              end_delta_ms: 90
-            },
-            20: {
-              start_delta_ms: 462,
-              end_delta_ms: 522
-            },
-            30: {
-              end_delta_ms: 1423,
-              start_delta_ms: 1333
-            },
-            40: {
-              end_delta_ms: 1907,
-              start_delta_ms: 1707
-            },
-            50: {
-              end_delta_ms: 2360,
-              start_delta_ms: 2160
-            },
-            60: {
-              end_delta_ms: 2693,
-              start_delta_ms: 2653
-            },
-            70: {
-              end_delta_ms: 3199,
-              start_delta_ms: 3099
-            }
-          }
-        };
-        setInvocationList(json.functions);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    fetchData();
+    setInvocationList(InvocationData);
   }, []);
 
-  const handleInvocation = (id) => {
-    if (id !== selectedInvocation) {
-      setSelectedInvocation(id);
+  const getLastFunctionEndTime = (functions, invocationStartTime) => {
+    const functionEntries = Object.entries(functions);
+    if (functionEntries.length === 0) {
+      return null;
     }
+
+    const maxEndTime = Math.max(...functionEntries.map(([_, func]) => func.end_delta_ms));
+    const lastFunctionEndTime = new Date(invocationStartTime + maxEndTime).toLocaleString();
+    return lastFunctionEndTime;
   };
 
+  const handleFilterChange = (event) => {
+    setFilterValue(event.target.value);
+  };
+
+  const filteredInvocationList = invocationList.filter(item => item.workflow_invocation_id.startsWith(filterValue));
+
   return (
-    <Box display="flex" width="70%" justifyContent="space-around" p={5} border="2px solid blue" marginLeft="10%" marginBottom="20%"  marginTop="10%">
-      <TableContainer sx={ {bgcolor: 'background.paper'}}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Invocation ID</TableCell>
-              <TableCell>Execution Time</TableCell>
-              <TableCell>Timestamp</TableCell>
-              <TableCell align="center">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {Object.entries(invocationList).map(([key, value]) => {
-              const executionTime = value.end_delta_ms - value.start_delta_ms;
-              return (
-                <TableRow key={key}>
-                  <TableCell>{key}</TableCell>
-                  <TableCell>{executionTime}</TableCell>
-                  <TableCell>{value.end_delta_ms}</TableCell>
-                  <TableCell align="center">
-                    <IconButton aria-label="moreinfo" onClick={() => handleInvocation(key)}>
-                      <MoreHorizIcon />
-                    </IconButton>
-                  </TableCell>
+    <div>
+      <Box display="flex" flexDirection="column" alignItems="center">
+        <Box p={2} paddingTop='10%'>
+          <TextField
+            label="Filter by ID"
+            value={filterValue}
+            onChange={handleFilterChange}
+          />
+        </Box>
+        <Box width="70%" p={5} border="2px solid blue" margin="0 auto" marginTop="2%">
+          <TableContainer sx={{ bgcolor: 'background.paper' }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center"><b>Invocation ID</b></TableCell>
+                  <TableCell align="center"><b>Start Time</b></TableCell>
+                  <TableCell align="center"><b>End Time</b></TableCell>
                 </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      {selectedInvocation && <Line invocationId={selectedInvocation} />}
-    </Box>
+              </TableHead>
+              <TableBody>
+                {filteredInvocationList.map(item => (
+                  <TableRow key={item.workflow_invocation_id}>
+                    <TableCell align="center">
+                      <Link to={`/wf/invocations/${item.workflow_invocation_id}`}>{item.workflow_invocation_id}</Link>
+                    </TableCell>
+                    <TableCell align="center">{new Date(item.invocation_start_time_ms).toLocaleString()}</TableCell>
+                    <TableCell align="center">
+                      {getLastFunctionEndTime(item.functions, item.invocation_start_time_ms)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+      </Box>
+    </div>
   );
 };
 
