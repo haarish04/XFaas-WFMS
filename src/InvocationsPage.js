@@ -1,7 +1,7 @@
 //import { useState,useEffect,useMemo } from "react";
 import {useMode} from "./theme"
 import {ThemeProvider} from "@mui/material"
-import Bar from "./scenes/bar/Bar";
+import Line from "./scenes/line/Line";
 import Invocation from "./scenes/invocations/Invocation";
 import "./InvocationsPage.css"
 import  Graph  from 'react-graph-vis';
@@ -150,8 +150,8 @@ const [theme]=useMode();
           <RefactoredTable />
           
             <Invocation />
-              <Bar/>
-
+              
+              <Line/>
           </main>
         </div>
         

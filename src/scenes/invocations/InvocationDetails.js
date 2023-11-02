@@ -33,6 +33,24 @@ const InvocationDetails = () => {
     setInvocationList(formattedInvocationList);
   }, [id]);
 
+  //useEffect(() => {
+  //  const fetchData = async () => {
+  //    try {
+  //      const response = await fetch('API_ENDPOINT/' + id);
+  //        throw new Error('Network response was not ok');
+  //      }
+  //      const data = await response.json();
+  //      const formattedInvocationList = convertInvocationList(data);
+  //      setInvocationList(formattedInvocationList);
+  //    } catch (error) {
+  //      console.error('Error fetching data:', error);
+        // Handle errors or set a default state here if the fetch fails
+  //    }
+  //  };
+
+  //  fetchData();
+  //}, [id]);
+
   const handleFilterChange = (event) => {
     setFilterValue(event.target.value);
   };

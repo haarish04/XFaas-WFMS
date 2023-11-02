@@ -11,6 +11,24 @@ const Invocation = () => {
     setInvocationList(InvocationData);
   }, []);
 
+  //useEffect(() => {
+  //  const fetchData = async () => {
+  //   try {
+  //     const response = await fetch('YOUR_API_ENDPOINT'); // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint
+  //      if (!response.ok) {
+  //        throw new Error('Network response was not ok');
+  //      }
+  //      const data = await response.json();
+  //      setInvocationList(data);
+  //    } catch (error) {
+  //      console.error('Error fetching data:', error);
+        // Handle errors or set a default state here if the fetch fails
+  //    }
+  //  };
+
+  //  fetchData();
+  //}, []);
+
   const getLastFunctionEndTime = (functions, invocationStartTime) => {
     const functionEntries = Object.entries(functions);
     if (functionEntries.length === 0) {
