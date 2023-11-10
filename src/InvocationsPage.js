@@ -14,6 +14,7 @@ import Welcome from "./scenes/invocations/Welcomerefactored";
 import Welcomeuser from "./scenes/invocations/Welcomeoriginal";
 import Userworkflow from "./components/Userworkflow";
 import RefactoredTable from "./scenes/invocations/refactoredtable";
+import StartvsEndLine from "./scenes/line/StartvsEndLine";
 
 
 const GraphWrapper = () => {
@@ -152,6 +153,7 @@ const [theme]=useMode();
             <Invocation />
               
               <Line/>
+              <StartvsEndLine />
           </main>
         </div>
         
